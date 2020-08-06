@@ -87,12 +87,19 @@ namespace TechJobsPersistent.Controllers
         }
 
         public IActionResult About(int id)
-        {
+        { 
+            //so we make a list of JobSkill objects that we call jobSkills and set it to the dB table for JobSkills
             List<JobSkill> jobSkills = context.JobSkills
+                // then we do some limiting on what will be in the About. 
+                // we tell it that we only want JobSkills (js) where the SkillId for that js is equal to our argument
                 .Where(js => js.SkillId == id)
+                // and we tell it to include all this crap that is part of that. This is all overkill for what we need
+                // BACK TO THE Employer Controller! :)
                 .Include(js => js.Job)
                 .Include(js => js.Skill)
                 .ToList();
+
+           
 
             return View(jobSkills);
         }
