@@ -1,19 +1,29 @@
-﻿<h1>Add a Job</h1>
+﻿@model TechJobsPersistent.ViewModels.AddJobViewModel
+
+<h1>Add a Job</h1>
 
 <form asp-controller="Home" asp-action="ProcessAddJobForm" method="post">
     <div class="form-group">
-        <label>Name</label>
-        <input class="form-control" />
-        <span></span>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
     </div>
-
-    We're gonna need some more fields here.
-
-    Gonna need a dropdown with all the employers in the Db and a link to add a new employer if they don't find what they're looking for
-    we'll need some asp "stuff" to make it all work, so check out the Skill/AddJob if you get stumped. It's not exactly what you need
-    but it'll unblock what might be giving you pause.
-
-
-                    <input type="submit" value="Add Job" />
+    <div class="form-group">
+        <label asp-for="EmployerId">Employer Name</label>
+        <select asp-for="EmployerId" asp-items="@Model.Employer"></select>
+        <p>
+            <a asp-controller="Employer" asp-action="Add">Add New Employer</a>
+        </p>
+    </div>
+    <div class="form-group">
+        @foreach (var skill in Model.Skills)
+        {
+            <label for="@skill.Id">@skill.Name</label>
+            <input type="checkbox" name="selectedSkills" value="@skill.Id" />
+        }
+        <p>
+            <a asp-controller="Skill" asp-action="Add">Add New Skill</a>
+        </p>
+    </div>
+    <input type="submit" value="Add Job" />
 </form>
 
